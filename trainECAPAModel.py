@@ -21,7 +21,7 @@ parser.add_argument("--lr_decay",   type=float, default=0.97,    help='Learning 
 parser.add_argument('--train_list', type=str,   default="/kaggle/working/ECAPA-VLSP23/train_list.txt",     help='The path of the training list')
 parser.add_argument('--train_path', type=str,   default="",                    help='The path of the training data')
 parser.add_argument('--eval_list',  type=str,   default="/kaggle/working/ECAPA-VLSP23/eval_list.txt",              help='The path of the evaluation list')
-parser.add_argument('--eval_path',  type=str,   default="/",                    help='The path of the evaluation data')
+parser.add_argument('--eval_path',  type=str,   default="",                    help='The path of the evaluation data')
 parser.add_argument('--save_path',  type=str,   default="exps/exp1",                                     help='Path to save the score.txt and models')
 parser.add_argument('--initial_model',  type=str,   default="",                                          help='Path of the initial_model')
 

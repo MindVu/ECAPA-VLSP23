@@ -21,7 +21,7 @@ class train_loader(object):
 			file_name     = os.path.join(train_path, line.split()[1])
 			self.data_label.append(speaker_label)
 			self.data_list.append(file_name)
-
+   
 	def __getitem__(self, index):
 		# Read the utterance and randomly select the segment
 		audio, sr = soundfile.read(self.data_list[index])		
@@ -32,6 +32,7 @@ class train_loader(object):
 		start_frame = numpy.int64(random.random()*(audio.shape[0]-length))
 		audio = audio[start_frame:start_frame + length]
 		audio = numpy.stack([audio],axis=0)
+		return torch.FloatTensor(audio[0]), self.data_label[index]
 
 	def __len__(self):
 		return len(self.data_list)

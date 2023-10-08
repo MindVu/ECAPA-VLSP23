@@ -13,7 +13,7 @@ parser.add_argument('--num_frames', type=int,   default=200,     help='Duration 
 parser.add_argument('--max_epoch',  type=int,   default=100,      help='Maximum number of epochs')
 parser.add_argument('--batch_size', type=int,   default=100,     help='Batch size')
 parser.add_argument('--n_cpu',      type=int,   default=2,       help='Number of loader threads')
-parser.add_argument('--test_step',  type=int,   default=10,       help='Test and save every [test_step] epochs')
+parser.add_argument('--test_step',  type=int,   default=1,       help='Test and save every [test_step] epochs')
 parser.add_argument('--lr',         type=float, default=0.001,   help='Learning rate')
 parser.add_argument("--lr_decay",   type=float, default=0.97,    help='Learning rate decay every [test_step] epochs')
 
@@ -21,7 +21,7 @@ parser.add_argument("--lr_decay",   type=float, default=0.97,    help='Learning 
 parser.add_argument('--train_list', type=str,   default="/kaggle/working/ECAPA-VLSP23/train_list.txt",     help='The path of the training list')
 parser.add_argument('--train_path', type=str,   default="/kaggle/input/vlsp-sv-2023/vietnam_celeb",                    help='The path of the training data')
 parser.add_argument('--eval_list',  type=str,   default="/kaggle/working/ECAPA-VLSP23/eval_list.txt",              help='The path of the evaluation list')
-parser.add_argument('--eval_path',  type=str,   default="/kaggle/input/vlsp-sv-2023/vietnam_celeb",                    help='The path of the evaluation data')
+parser.add_argument('--eval_path',  type=str,   default="/kaggle/input/vlsp-sv-2023/spoofing_data",                    help='The path of the evaluation data')
 parser.add_argument('--save_path',  type=str,   default="exps/exp1",                                     help='Path to save the score.txt and models')
 parser.add_argument('--initial_model',  type=str,   default="",                                          help='Path of the initial_model')
 

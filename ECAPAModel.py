@@ -45,17 +45,17 @@ class ECAPAModel(nn.Module):
 			top1 += prec
 			loss += nloss.detach().cpu().numpy()
 
-			# # Iterate through the batch to store embeddings
-			# with torch.no_grad():
-			# 	for i in range(len(data)):
-			# 		# Compute the embedding for each utterance
-			# 		emb = self.speaker_encoder.forward(data[i:i+1], aug=False)
-			# 		emb = emb.detach().cpu().numpy()
-			# 		# Inside the loop, extract the utterance ID from the WAV file name
-			# 		file_name = loader.dataset.get_file_name(num, i)
-			# 		utterance_id = file_name.split("/")[-1].split(".")[0]  # Extract the ID from the file name
-			# 		# Store the embedding along with the utterance ID
-			# 		embeddings[utterance_id] = emb
+			# Iterate through the batch to store embeddings
+			with torch.no_grad():
+				for i in range(len(data)):
+					# Compute the embedding for each utterance
+					emb = self.speaker_encoder.forward(data[i:i+1], aug=False)
+					emb = emb.detach().cpu().numpy()
+					# Inside the loop, extract the utterance ID from the WAV file name
+					file_name = loader.dataset.get_file_name(num, i)
+					utterance_id = file_name.split("/")[-1].split(".")[0]  # Extract the ID from the file name
+					# Store the embedding along with the utterance ID
+					embeddings[utterance_id] = emb
 
 			sys.stderr.write(time.strftime("%m-%d %H:%M:%S") + \
 							" [%2d] Lr: %5f, Training: %.2f%%, "    %(epoch, lr, 100 * (num / loader.__len__())) + \
@@ -64,8 +64,8 @@ class ECAPAModel(nn.Module):
 		sys.stdout.write("\n")
 
 		# Save the embeddings to a pickle file
-		# with open('embeddings/emb_train.pk', 'wb') as f:
-		# 	pk.dump(embeddings, f)
+		with open('embeddings/emb_train.pk', 'wb') as f:
+			pk.dump(embeddings, f)
 
 		return loss/num, lr, top1/index*len(labels)
 

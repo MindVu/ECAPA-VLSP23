@@ -66,8 +66,6 @@ class ECAPAModel(nn.Module):
 			pk.dump(embeddings, f)
 
 		return loss/num, lr, top1/index*len(labels)
-	def get_file_name(self, index, i):
-		return self.data_list[index]
     
 	def eval_network(self, eval_list, eval_path):
 		self.eval()

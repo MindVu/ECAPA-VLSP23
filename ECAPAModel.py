@@ -51,7 +51,7 @@ class ECAPAModel(nn.Module):
 					emb = emb.detach().cpu().numpy()
 					# Inside the loop, extract the utterance ID from the WAV file name
 					file_name = loader.dataset.get_file_name(num, i)
-					utterance_id = file_name.split("/")[-1].split(".")[0]  # Extract the ID from the file name
+					utterance_id = file_name.split("/")[-1].split(".wav")[0]  # Extract the ID from the file name
 					# Store the embedding along with the utterance ID
 					embeddings[utterance_id] = emb
 
@@ -66,8 +66,9 @@ class ECAPAModel(nn.Module):
 			pk.dump(embeddings, f)
 
 		return loss/num, lr, top1/index*len(labels)
-
-
+	def get_file_name(self, index, i):
+		return self.data_list[index]
+    
 	def eval_network(self, eval_list, eval_path):
 		self.eval()
 		files = []

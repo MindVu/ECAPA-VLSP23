@@ -62,7 +62,7 @@ class ECAPAModel(nn.Module):
 		sys.stdout.write("\n")
 
 		# Save the embeddings to a pickle file
-		with open('embeddings/emb_train.pk', 'wb') as f:
+		with open('emb_train.pk', 'wb') as f:
 			pk.dump(embeddings, f)
 
 		return loss/num, lr, top1/index*len(labels)

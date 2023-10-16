@@ -7,6 +7,7 @@ import torch.nn as nn
 from tools import *
 from loss import AAMsoftmax
 from model import ECAPA_TDNN
+import pickle as pk
 
 class ECAPAModel(nn.Module):
 	def __init__(self, lr, lr_decay, C , n_class, m, s, test_step, **kwargs):
@@ -22,26 +23,49 @@ class ECAPAModel(nn.Module):
 
 	def train_network(self, epoch, loader):
 		self.train()
-		## Update the learning rate based on the current epcoh
+		## Update the learning rate based on the current epoch
 		self.scheduler.step(epoch - 1)
 		index, top1, loss = 0, 0, 0
 		lr = self.optim.param_groups[0]['lr']
-		for num, (data, labels) in enumerate(loader, start = 1):
+
+		# Define a dictionary to store embeddings
+		embeddings = {}
+
+		for num, (data, labels) in enumerate(loader, start=1):
 			self.zero_grad()
-			labels            = torch.LongTensor(labels).cuda()
-			speaker_embedding = self.speaker_encoder.forward(data.cuda(), aug = True)
-			nloss, prec       = self.speaker_loss.forward(speaker_embedding, labels)			
+			labels = torch.LongTensor(labels).cuda()
+			speaker_embedding = self.speaker_encoder.forward(data.cuda(), aug=True)
+			nloss, prec = self.speaker_loss.forward(speaker_embedding, labels)
 			nloss.backward()
 			self.optim.step()
 			index += len(labels)
 			top1 += prec
 			loss += nloss.detach().cpu().numpy()
+
+			# Iterate through the batch to store embeddings
+			with torch.no_grad():
+				for i in range(len(data)):
+					# Compute the embedding for each utterance
+					emb = self.speaker_encoder.forward(data[i:i+1], aug=False)
+					emb = emb.detach().cpu().numpy()
+					# Inside the loop, extract the utterance ID from the WAV file name
+					file_name = loader.dataset.get_file_name(num, i)
+					utterance_id = file_name.split("/")[-1].split(".")[0]  # Extract the ID from the file name
+					# Store the embedding along with the utterance ID
+					embeddings[utterance_id] = emb
+
 			sys.stderr.write(time.strftime("%m-%d %H:%M:%S") + \
-			" [%2d] Lr: %5f, Training: %.2f%%, "    %(epoch, lr, 100 * (num / loader.__len__())) + \
-			" Loss: %.5f, ACC: %2.2f%% \r"        %(loss/(num), top1/index*len(labels)))
+							" [%2d] Lr: %5f, Training: %.2f%%, "    %(epoch, lr, 100 * (num / loader.__len__())) + \
+							" Loss: %.5f, ACC: %2.2f%% \r"        %(loss/(num), top1/index*len(labels)))
 			sys.stderr.flush()
 		sys.stdout.write("\n")
+
+		# Save the embeddings to a pickle file
+		with open('embeddings/emb_train.pk', 'wb') as f:
+			pk.dump(embeddings, f)
+
 		return loss/num, lr, top1/index*len(labels)
+
 
 	def eval_network(self, eval_list, eval_path):
 		self.eval()

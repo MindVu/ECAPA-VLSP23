@@ -6,11 +6,12 @@ import argparse, glob, os, torch, warnings, time
 from tools import *
 from dataLoader import train_loader
 from ECAPAModel import ECAPAModel
-import os
-os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 
+# Set the multiprocessing start method to 'spawn'
+import torch.multiprocessing as mp
+mp.set_start_method('spawn')
 
-parser = argparse.ArgumentParser(description = "ECAPA_trainer")
+parser = argparse.ArgumentParser(description="ECAPA_trainer")
 ## Training Settings
 parser.add_argument('--num_frames', type=int,   default=200,     help='Duration of the input segments, eg: 200 for 2 second')
 parser.add_argument('--max_epoch',  type=int,   default=100,      help='Maximum number of epochs')

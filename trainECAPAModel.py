@@ -22,6 +22,8 @@ parser.add_argument('--train_list', type=str,   default="/kaggle/working/ECAPA-V
 parser.add_argument('--train_path', type=str,   default="/kaggle/input/vlsp-sv-2023/vietnam_celeb",                    help='The path of the training data')
 parser.add_argument('--eval_list',  type=str,   default="/kaggle/working/ECAPA-VLSP23/eval_list.txt",              help='The path of the evaluation list')
 parser.add_argument('--eval_path',  type=str,   default="/kaggle/input/vlsp-sv-2023/spoofing_data",                    help='The path of the evaluation data')
+parser.add_argument('--musan_path', type=str,   default="/kaggle/input/musan-noise/musan",                    help='The path to the MUSAN set')
+parser.add_argument('--rir_path',   type=str,   default="/kaggle/input/room-impulse-response-and-noise-database/RIRS_NOISES/simulated_rirs",     help='The path to the RIR set');
 parser.add_argument('--save_path',  type=str,   default="exps/exp1",                                     help='Path to save the score.txt and models')
 parser.add_argument('--initial_model',  type=str,   default="",                                          help='Path of the initial_model')
 

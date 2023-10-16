@@ -8,8 +8,8 @@ from dataLoader import train_loader
 from ECAPAModel import ECAPAModel
 
 # Set the multiprocessing start method to 'spawn'
-import torch.multiprocessing as mp
-mp.set_start_method('spawn')
+# import torch.multiprocessing as mp
+# mp.set_start_method('spawn')
 
 parser = argparse.ArgumentParser(description="ECAPA_trainer")
 ## Training Settings

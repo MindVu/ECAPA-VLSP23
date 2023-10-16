@@ -6,6 +6,9 @@ import argparse, glob, os, torch, warnings, time
 from tools import *
 from dataLoader import train_loader
 from ECAPAModel import ECAPAModel
+import os
+os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+
 
 parser = argparse.ArgumentParser(description = "ECAPA_trainer")
 ## Training Settings

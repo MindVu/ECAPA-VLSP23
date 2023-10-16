@@ -8,6 +8,9 @@ from tools import *
 from loss import AAMsoftmax
 from model import ECAPA_TDNN
 import pickle as pk
+import os
+os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+
 
 class ECAPAModel(nn.Module):
 	def __init__(self, lr, lr_decay, C , n_class, m, s, test_step, **kwargs):

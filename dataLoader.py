@@ -9,12 +9,12 @@ class train_loader(object):
 	def __init__(self, train_list, train_path, musan_path, rir_path, num_frames, **kwargs):
 		self.train_path = train_path
 		self.num_frames = num_frames
-		# Load and configure augmentation files
-		self.noisetypes = ['noise','speech','music']
-		self.noisesnr = {'noise':[0,15],'speech':[13,20],'music':[5,15]}
-		self.numnoise = {'noise':[1,1], 'speech':[3,8], 'music':[1,1]}
-		self.noiselist = {}
-		augment_files   = glob.glob(os.path.join(musan_path,'*/*/*/*.wav'))
+		# # Load and configure augmentation files
+		# self.noisetypes = ['noise','speech','music']
+		# self.noisesnr = {'noise':[0,15],'speech':[13,20],'music':[5,15]}
+		# self.numnoise = {'noise':[1,1], 'speech':[3,8], 'music':[1,1]}
+		# self.noiselist = {}
+		# augment_files   = glob.glob(os.path.join(musan_path,'*/*/*/*.wav'))
 		for file in augment_files:
 			if file.split('/')[-4] not in self.noiselist:
 				self.noiselist[file.split('/')[-4]] = []
@@ -43,21 +43,21 @@ class train_loader(object):
 		start_frame = numpy.int64(random.random()*(audio.shape[0]-length))
 		audio = audio[start_frame:start_frame + length]
 		audio = numpy.stack([audio],axis=0)
-		# Data Augmentation
-		augtype = random.randint(0,5)
-		if augtype == 0:   # Original
-			audio = audio
-		elif augtype == 1: # Reverberation
-			audio = self.add_rev(audio)
-		elif augtype == 2: # Babble
-			audio = self.add_noise(audio, 'speech')
-		elif augtype == 3: # Music
-			audio = self.add_noise(audio, 'music')
-		elif augtype == 4: # Noise
-			audio = self.add_noise(audio, 'noise')
-		elif augtype == 5: # Television noise
-			audio = self.add_noise(audio, 'speech')
-			audio = self.add_noise(audio, 'music')
+		# # Data Augmentation
+		# augtype = random.randint(0,5)
+		# if augtype == 0:   # Original
+		# 	audio = audio
+		# elif augtype == 1: # Reverberation
+		# 	audio = self.add_rev(audio)
+		# elif augtype == 2: # Babble
+		# 	audio = self.add_noise(audio, 'speech')
+		# elif augtype == 3: # Music
+		# 	audio = self.add_noise(audio, 'music')
+		# elif augtype == 4: # Noise
+		# 	audio = self.add_noise(audio, 'noise')
+		# elif augtype == 5: # Television noise
+		# 	audio = self.add_noise(audio, 'speech')
+		# 	audio = self.add_noise(audio, 'music')
 		return torch.FloatTensor(audio[0]), self.data_label[index]
 
 	def __len__(self):

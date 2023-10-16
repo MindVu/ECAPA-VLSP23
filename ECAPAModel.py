@@ -47,7 +47,7 @@ class ECAPAModel(nn.Module):
 			with torch.no_grad():
 				for i in range(len(data)):
 					# Compute the embedding for each utterance
-					emb = self.speaker_encoder.forward(data[i:i+1], aug=False)
+					emb = self.speaker_encoder.forward(data.cuda(), aug=False)
 					emb = emb.detach().cpu().numpy()
 					# Inside the loop, extract the utterance ID from the WAV file name
 					file_name = loader.dataset.get_file_name(num, i)

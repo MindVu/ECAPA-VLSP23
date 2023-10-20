@@ -94,7 +94,7 @@ class train_loader(object):
         return signal.convolve(audio, rir, mode='full')[:, :self.num_frames * 160 + 240]
 
     def add_noise(self, audio, noisecat):
-        clean_db = numpy.log10(numpy.mean(audio ** 2)+1e-4)
+        clean_db = 10*numpy.log10(numpy.mean(audio ** 2)+1e-4)
         numnoise = self.numnoise[noisecat]
         noiselist = random.sample(
             self.noiselist[noisecat], random.randint(numnoise[0], numnoise[1]))

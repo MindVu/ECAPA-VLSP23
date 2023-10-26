@@ -41,7 +41,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import time, pdb, numpy
-from torch.utils import accuracy
+from utils import accuracy
 
 class GE2E(nn.Module):
 
